@@ -144,7 +144,7 @@ from synapse.util.stringutils import random_string
 logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
-    from txredisapi import RedisProtocol
+    from txredisapi import ConnectionHandler
 
     from synapse.handlers.oidc import OidcHandler
     from synapse.handlers.saml import SamlHandler
@@ -808,7 +808,7 @@ class HomeServer(metaclass=abc.ABCMeta):
         return ExternalCache(self)
 
     @cache_in_self
-    def get_outbound_redis_connection(self) -> "RedisProtocol":
+    def get_outbound_redis_connection(self) -> "ConnectionHandler":
         """
         The Redis connection used for replication.
 
