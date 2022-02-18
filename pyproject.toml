@@ -66,3 +66,115 @@ multi_line_output = 3
 include_trailing_comma = true
 combine_as_imports = true
 
+
+[tool.poetry]
+name = "matrix-synapse"
+version = "1.53.0rc1"
+description = "Homeserver for the Matrix decentralised comms protocol"
+authors = ["Matrix.org Team and Contributors <packages@matrix.org>"]
+license = "Apache-2.0"
+readme = "README.rst"
+repository = "https://github.com/matrix-org/synapse"
+packages = [
+    { include = "synapse" },
+    { include = "synmark" },
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Topic :: Communications :: Chat",
+]
+include = [
+    { path = "AUTHORS.rst", format = "sdist" },
+    { path = "book.toml", format = "sdist" },
+    { path = "changelog.d", format = "sdist" },
+    { path = "CHANGES.md", format = "sdist" },
+    { path = "CONTRIBUTING.md", format = "sdist" },
+    { path = "demo", format = "sdist" },
+    { path = "docs", format = "sdist" },
+    { path = "INSTALL.md", format = "sdist" },
+    { path = "mypy.ini", format = "sdist" },
+    { path = "scripts" },
+    { path = "scripts-dev", format = "sdist" },
+    { path = "synctl", format = "sdist" },
+    { path = "sytest-blacklist", format = "sdist" },
+    { path = "tests", format = "sdist" },
+    { path = "tox.ini", format = "sdist" },
+    { path = "UPGRADE.rst", format = "sdist" },
+]
+
+[tool.poetry.scripts]
+synapse_homeserver = "synapse.app.homeserver:main"
+synapse_worker = "synapse.app.generic_worker:main"
+
+# TODO work out how to handle
+#   scripts=["synctl"] + glob.glob("scripts/*")
+# from setuptools. Looks like scripts in the sense of setuptools not yet supported: see
+#   https://github.com/python-poetry/poetry/issues/2496
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+# TODO
+#dependencies = exec_file(("synapse", "python_dependencies.py"))
+#
+#REQUIREMENTS = dependencies["REQUIREMENTS"]
+#CONDITIONAL_REQUIREMENTS = dependencies["CONDITIONAL_REQUIREMENTS"]
+#ALL_OPTIONAL_REQUIREMENTS = dependencies["ALL_OPTIONAL_REQUIREMENTS"]
+#
+## Make `pip install matrix-synapse[all]` install all the optional dependencies.
+#CONDITIONAL_REQUIREMENTS["all"] = list(ALL_OPTIONAL_REQUIREMENTS)
+#
+## Developer dependencies should not get included in "all".
+##
+## We pin black so that our tests don't start failing on new releases.
+#CONDITIONAL_REQUIREMENTS["lint"] = [
+#    "isort==5.7.0",
+#    "black==21.12b0",
+#    "flake8-comprehensions",
+#    "flake8-bugbear==21.3.2",
+#    "flake8",
+#]
+#
+#CONDITIONAL_REQUIREMENTS["mypy"] = [
+#    "mypy==0.931",
+#    "mypy-zope==0.3.5",
+#    "types-bleach>=4.1.0",
+#    "types-jsonschema>=3.2.0",
+#    "types-opentracing>=2.4.2",
+#    "types-Pillow>=8.3.4",
+#    "types-pyOpenSSL>=20.0.7",
+#    "types-PyYAML>=5.4.10",
+#    "types-requests>=2.26.0",
+#    "types-setuptools>=57.4.0",
+#]
+#
+## Dependencies which are exclusively required by unit test code. This is
+## NOT a list of all modules that are necessary to run the unit tests.
+## Tests assume that all optional dependencies are installed.
+##
+## parameterized_class decorator was introduced in parameterized 0.7.0
+#CONDITIONAL_REQUIREMENTS["test"] = ["parameterized>=0.7.0"]
+#
+#CONDITIONAL_REQUIREMENTS["dev"] = (
+#    CONDITIONAL_REQUIREMENTS["lint"]
+#    + CONDITIONAL_REQUIREMENTS["mypy"]
+#    + CONDITIONAL_REQUIREMENTS["test"]
+#    + [
+#        # The following are used by the release script
+#        "click==7.1.2",
+#        "redbaron==0.9.2",
+#        "GitPython==3.1.14",
+#        "commonmark==0.9.1",
+#        "pygithub==1.55",
+#        # The following are executed as commands by the release script.
+#        "twine",
+#        "towncrier",
+#    ]
+#)
+
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
