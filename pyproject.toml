@@ -159,9 +159,27 @@ cryptography = ">=3.4.7"
 ijson = ">=3.1.4"
 matrix-common = "~=1.1.0"
 
+
+# Optional Dependencies
+# ---------------------
+
+matrix-synapse-ldap3 = { version = ">=0.1", optional = true }
+psycopg2 = { version = ">=2.8", markers = "platform_python_implementation != 'PyPy'", optional = true }
+psycopg2cffi = { version = ">=2.8", markers = "platform_python_implementation == 'PyPy'", optional = true }
+psycopg2cffi-compat = { version = "==1.1", markers = "platform_python_implementation == 'PyPy'", optional = true }
+pysaml2 = { version = ">=4.5.0", optional = true }
+authlib = { version = ">=0.14.0", optional = true }
+systemd-python = { version = ">=231", optional = true }
+lxml = { version = ">=4.2.0", optional = true }
+sentry-sdk = { version = ">=0.7.2", optional = true }
+opentracing = { version = ">=2.2.0", optional = true }
+jaeger-client = { version = ">=4.0.0", optional = true }
+pyjwt = { version = ">=1.6.4", optional = true }
+txredisapi = { version = ">=1.4.7", optional = true }
+hiredis = { version = "*", optional = true }
+Pympler = { version = "*", optional = true }
+
 # TODO
-#CONDITIONAL_REQUIREMENTS = dependencies["CONDITIONAL_REQUIREMENTS"]
-#ALL_OPTIONAL_REQUIREMENTS = dependencies["ALL_OPTIONAL_REQUIREMENTS"]
 #
 ## Make `pip install matrix-synapse[all]` install all the optional dependencies.
 #CONDITIONAL_REQUIREMENTS["all"] = list(ALL_OPTIONAL_REQUIREMENTS)
@@ -213,7 +231,27 @@ matrix-common = "~=1.1.0"
 #        "towncrier",
 #    ]
 #)
+[tool.poetry.extras]
+matrix-synapse-ldap3 = ["matrix-synapse-ldap3"]
+postgres = ["psycopg2", "psycopg2cffi", "psycopg2cffi-compat"]
+saml2 = ["pysaml2"]
+oidc = ["authlib"]
+# systemd-python is necessary for logging to the systemd journal via
+# `systemd.journal.JournalHandler`, as is documented in
+# `contrib/systemd/log_config.yaml`.
+systemd = ["systemd-python"]
+url_preview = ["[lxml"]
+sentry = ["sentry-sdk"]
+opentracing = ["jaeger-client", "opentracing"]
+jwt = ["pyjwt"]
+# hiredis is not a *strict* dependency, but it makes things much faster.
+# (if it is not installed, we fall back to slow code.)
+redis = ["txredisapi", "hiredis"]
+# Required to use experimental `caches.track_memory_usage` config option.
+cache_memory = ["pympler"]
 
+# TODO: is there a better way to avoid the duplication here?
+all = ["matrix-synapse-ldap3", "postgres", "saml2", "oidc", "systemd", "url_preview", "sentry", "opentracing", "jwt", "redis", "cache_memory"]
 
 [tool.poetry.dev-dependencies]
 
